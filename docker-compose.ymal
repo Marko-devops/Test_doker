@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    hostname: jenkins
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    command: >
+      bash -c "apt-get update -y && apt-get upgrade -y &&
+               exec /usr/bin/tini -- /usr/local/bin/jenkins.sh"
+
+  nexus:
+    image: sonatype/nexus3:latest
+    container_name: nexus
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    hostname: nexus
+    volumes:
+      - nexus_data:/nexus-data
+    command: >
+      bash -c "apt-get update -y && apt-get upgrade -y && 
+               /opt/sonatype/start-nexus-repository-manager.sh"
+
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    hostname: sonarqube
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    command: >
+      bash -c "apt-get update -y && apt-get upgrade -y &&
+               ./bin/run.sh"
+
+volumes:
+  jenkins_home:
+  nexus_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+
