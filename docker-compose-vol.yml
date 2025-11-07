@@ -10,7 +10,7 @@ services:
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     volumes:
-      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/jenkins/home:/var/jenkins_home"
+      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/docker-backups11.08.2025/jenkins_home:/var/jenkins_home"
 
   nexus:
     image: sonatype/nexus3:latest
@@ -20,7 +20,7 @@ services:
       - "8081:8081"
     hostname: nexus
     volumes:
-      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/nexus/data:/nexus-data"
+      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/docker-backups11.08.2025/nexus_data:/nexus-data"
 
   postgres:
     image: postgres:15
@@ -31,7 +31,7 @@ services:
       POSTGRES_PASSWORD: sonar
       POSTGRES_DB: sonar
     volumes:
-      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/postgres/data:/var/lib/postgresql/data"
+      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/docker-backups11.08.2025/postgres_data:/var/lib/postgresql/data"
     ports:
       - "5432:5432"
 
@@ -50,6 +50,6 @@ services:
     depends_on:
       - postgres
     volumes:
-      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/sonarqube/data:/opt/sonarqube/data"
-      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/sonarqube/extensions:/opt/sonarqube/extensions"
-      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/sonarqube/logs:/opt/sonarqube/logs"
+      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/docker-backups11.08.2025/sonarqube_data:/opt/sonarqube/data"
+      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/docker-backups11.08.2025/sonarqube_extensions:/opt/sonarqube/extensions"
+      - "D:/DOCKER LOCAL TEST RESOURSES WINDOWS/docker-backups11.08.2025/sonarqube_logs:/opt/sonarqube/logs"
